@@ -55,7 +55,7 @@ def run_dada2(
 def dada2(
     samples: List[Sample],
     taxonomy_ref_fasta: LatchFile,
-    species_assignment_fasta: Optional[LatchFile],
+    species_assignment_fasta: Optional[LatchFile] = None,
 ) -> LatchDir:
     """A workflow for fast and accurate sample inference from amplicon data
 
