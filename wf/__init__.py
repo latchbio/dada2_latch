@@ -48,22 +48,17 @@ def run_dada2(
         str(read_dirpath),
         str(output_dirpath),
         taxonomy_ref_fasta.local_path,
+        str(minLen),
+        str(maxN),
+        str(minQ),
+        str(maxEE),
+        str(truncQ),
+        str(trimLeft),
+        str(trimRight),
     ]
 
     if species_assignment_fasta:
         _run_cmd.append(species_assignment_fasta.local_path)
-
-    _run_cmd.extend(
-        [
-            str(minLen),
-            str(maxN),
-            str(minQ),
-            str(maxEE),
-            str(truncQ),
-            str(trimLeft),
-            str(trimRight),
-        ]
-    )
 
     subprocess.run(_run_cmd)
 
