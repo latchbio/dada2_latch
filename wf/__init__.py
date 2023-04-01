@@ -3,40 +3,31 @@ from pathlib import Path
 
 from latch import medium_task, workflow
 from latch.resources.launch_plan import LaunchPlan
-from latch.types import LatchDir, LatchFile
+from latch.types import LatchDir, LatchFile, file_glob
+from typing import List
 
 from .docs import wf_docs
 from .types import Sample
 
 
 @medium_task
-def run_software(sample: Sample) -> LatchDir:
+def run_dada2(sample_name: str) -> List[LatchFile]:
     """Task to run a software"""
 
-    sample_name = sample.name
-    results_path = "program_results"
+    sample_name = sample_name
+    results_path = "dada2_results"
     output_dir = Path(results_path).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    output_prefix = f"{str(output_dir)}/{sample_name}"
-
-    _run_cmd = [
-        "software",
-        "--in1",
-        sample.read1.local_path,
-        "--in2",
-        sample.read2.local_path,
-        "-o",
-        output_prefix,
-    ]
+    _run_cmd = ["Rscript", "/root/dada2.R", sample_name]
 
     subprocess.run(_run_cmd)
 
-    return LatchDir(str(output_dir), f"latch:///{results_path}/{sample_name}")
+    return file_glob(f"{sample_name}*tsv", f"latch:///{results_path}")
 
 
 @workflow(wf_docs)
-def test_workflow(sample: Sample) -> LatchDir:
+def dada2(sample_name: str) -> List[LatchFile]:
     """Workflow to do X
 
     Header
@@ -45,17 +36,13 @@ def test_workflow(sample: Sample) -> LatchDir:
     This is a workflow that does X.
 
     """
-    return run_software(sample=sample)
+    return run_dada2(sample_name=sample_name)
 
 
 LaunchPlan(
-    test_workflow,
+    dada2,
     "Test Data",
     {
-        "sample": Sample(
-            name="SRR579292",
-            read1=LatchFile("s3://latch-public/test-data/4318/SRR579292_1.fastq"),
-            read2=LatchFile("s3://latch-public/test-data/4318/SRR579292_2.fastq"),
-        )
+        "sample_name": "SRR579292",
     },
 )

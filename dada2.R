@@ -1,5 +1,9 @@
 library(dada2)
 
+args <- commandArgs(trailingOnly = TRUE)
+
+sample_name <- args[1]
+
 # Forward and reverse fastq filenames have format: SAMPLENAME_R1_001.fastq and SAMPLENAME_R2_001.fastq
 fnFs <- sort(list.files("/root/data/MiSeq_SOP/", pattern="_R1_001.fastq", full.names = TRUE))
 fnRs <- sort(list.files("/root/data/MiSeq_SOP/", pattern="_R2_001.fastq", full.names = TRUE))
@@ -40,7 +44,7 @@ seqtab <- makeSequenceTable(mergers)
 
 seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
 
-write.table(seqtab.nochim, "asv_table.tsv")
+write.table(seqtab.nochim, paste0(sample_name, "_asv_table.tsv"))
 
 ###### Assign taxonomy
 
@@ -48,4 +52,4 @@ taxa <- assignTaxonomy(seqtab.nochim, "/root/data/silva_nr99_v138.1_train_set.fa
 
 taxa <- addSpecies(taxa, "/root/data/silva_species_assignment_v138.1.fa.gz")
 
-write.table(taxa, "species_table.tsv")
+write.table(taxa, paste0(sample_name, "_species_table.tsv"))

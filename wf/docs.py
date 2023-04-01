@@ -8,9 +8,8 @@ from latch.types.metadata import (
 )
 
 PARAMS = {
-    "sample": LatchParameter(
-        display_name="Paired-end reads",
-        description="FASTQ files",
+    "sample_name": LatchParameter(
+        display_name="Sample name",
         batch_table_column=True,
     ),
 }
@@ -26,7 +25,7 @@ FLOW = [
     )
 ]
 
-WORKFLOW_NAME = "workflow"
+WORKFLOW_NAME = "dada2"
 
 wf_docs = LatchMetadata(
     display_name=WORKFLOW_NAME,
