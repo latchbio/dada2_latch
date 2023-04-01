@@ -7,6 +7,5 @@ from latch.types import LatchFile
 @dataclass_json
 @dataclass
 class Sample:
-    name: str
     read1: LatchFile
     read2: LatchFile

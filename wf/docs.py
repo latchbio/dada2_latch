@@ -8,9 +8,13 @@ from latch.types.metadata import (
 )
 
 PARAMS = {
-    "sample_name": LatchParameter(
-        display_name="Sample name",
+    "samples": LatchParameter(
+        display_name="Samples",
         batch_table_column=True,
+    ),
+    "taxonomy_ref_fasta": LatchParameter(display_name="Taxonomy Reference FASTA"),
+    "species_assignment_fasta": LatchParameter(
+        display_name="Species Assignment Reference FASTA"
     ),
 }
 
