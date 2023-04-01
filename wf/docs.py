@@ -10,26 +10,34 @@ from latch.types.metadata import (
 PARAMS = {
     "samples": LatchParameter(
         display_name="Samples",
-        batch_table_column=True,
     ),
     "taxonomy_ref_fasta": LatchParameter(display_name="Taxonomy Reference FASTA"),
-    "species_assignment_fasta": LatchParameter(
-        display_name="Species Assignment Reference FASTA"
-    ),
+    "species_assignment_fasta": LatchParameter(display_name="Species Assignment FASTA"),
 }
 
 FLOW = [
     Section(
         "Samples",
         Text(
-            "Sample provided has to include an identifier for the sample (Sample name)"
-            " and two files corresponding to the reads (paired-end)"
+            "Samples provided have to include"
+            " two files corresponding to the reads (paired-end),"
+            " which follow the pattern '*1.fastq' and '*2.fastq'."
         ),
-        Params("sample"),
-    )
+        Params("samples"),
+    ),
+    Section(
+        "Reference Files",
+        Text(
+            "The taxonomy reference FASTA should be a training set of reference sequences with known taxonomy"
+            " which will be used by the `assignTaxonomy` function. The Species Assignment FASTA will be used"
+            " as input to the `addSpecies` function. See further explanation on the"
+            " [DADA2 documentation](http://benjjneb.github.io/dada2/tutorial.html#assign-taxonomy)."
+        ),
+        Params("taxonomy_ref_fasta", "species_assignment_fasta"),
+    ),
 ]
 
-WORKFLOW_NAME = "dada2"
+WORKFLOW_NAME = "DADA2"
 
 wf_docs = LatchMetadata(
     display_name=WORKFLOW_NAME,
@@ -41,6 +49,6 @@ wf_docs = LatchMetadata(
     repository=f"https://github.com/jvfe/{WORKFLOW_NAME}_latch",
     license="MIT",
     parameters=PARAMS,
-    tags=["NGS"],
+    tags=["NGS", "16S", "Amplicon", "ASV"],
     flow=FLOW,
 )
