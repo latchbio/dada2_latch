@@ -6,6 +6,13 @@ read_dir <- args[1]
 output_dir <- args[2]
 taxonomy_ref_fasta <- args[3]
 species_assignment_fasta <- args[4]
+minLen <- args[6]
+maxN <- args[7]
+minQ <- args[8]
+maxEE <- args[9]
+truncQ <- args[10]
+trimLeft <- args[11]
+trimRight <- args[12]
 
 # Forward and reverse fastq filenames have format: SAMPLENAME_R1_001.fastq and SAMPLENAME_R2_001.fastq
 fnFs <-
@@ -29,10 +36,13 @@ out <- filterAndTrim(
   filtFs,
   fnRs,
   filtRs,
-  maxN = 0,
-  maxEE = 2,
-  truncQ = 2,
-  minLen = 50,
+  minLen = minLen,
+  maxN = maxN,
+  minQ = minQ,
+  maxEE = maxEE,
+  truncQ = truncQ,
+  trimLeft = trimLeft,
+  trimRight = trimRight,
   rm.phix = TRUE,
   compress = TRUE,
   multithread = TRUE

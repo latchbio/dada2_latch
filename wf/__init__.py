@@ -17,6 +17,13 @@ def run_dada2(
     samples: List[Sample],
     taxonomy_ref_fasta: LatchFile,
     species_assignment_fasta: Optional[LatchFile],
+    minLen: int,
+    maxN: int,
+    minQ: int,
+    maxEE: int,
+    truncQ: int,
+    trimLeft: int,
+    trimRight: int,
 ) -> LatchDir:
     """Task to run dada2"""
 
@@ -46,6 +53,8 @@ def run_dada2(
     if species_assignment_fasta:
         _run_cmd.append(species_assignment_fasta.local_path)
 
+    _run_cmd.extend([minLen, maxN, minQ, maxEE, truncQ, trimLeft, trimRight])
+
     subprocess.run(_run_cmd)
 
     return LatchDir(str(output_dirpath), f"latch:///dada2_results/{output_dir}")
@@ -56,6 +65,13 @@ def dada2(
     samples: List[Sample],
     taxonomy_ref_fasta: LatchFile,
     species_assignment_fasta: Optional[LatchFile] = None,
+    minLen: int = 50,
+    maxN: int = 0,
+    minQ: int = 0,
+    maxEE: int = 2,
+    truncQ: int = 2,
+    trimLeft: int = 0,
+    trimRight: int = 0,
 ) -> LatchDir:
     """A workflow for fast and accurate sample inference from amplicon data
 
@@ -85,6 +101,13 @@ def dada2(
         samples=samples,
         taxonomy_ref_fasta=taxonomy_ref_fasta,
         species_assignment_fasta=species_assignment_fasta,
+        minLen=minLen,
+        maxN=maxN,
+        minQ=minQ,
+        maxEE=maxEE,
+        truncQ=truncQ,
+        trimLeft=trimLeft,
+        trimRight=trimRight,
     )
 
 

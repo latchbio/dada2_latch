@@ -5,6 +5,7 @@ from latch.types.metadata import (
     Params,
     Section,
     Text,
+    Spoiler,
 )
 
 PARAMS = {
@@ -13,6 +14,34 @@ PARAMS = {
     ),
     "taxonomy_ref_fasta": LatchParameter(display_name="Taxonomy Reference FASTA"),
     "species_assignment_fasta": LatchParameter(display_name="Species Assignment FASTA"),
+    "minLen": LatchParameter(
+        display_name="minLen",
+        description="Remove reads with length less than this value",
+    ),
+    "maxN": LatchParameter(
+        display_name="maxN",
+        description="After truncation, sequences with more than this number of Ns will be discarded",
+    ),
+    "minQ": LatchParameter(
+        display_name="minQ",
+        description="Reads that contain a quality score less than this will be discarded",
+    ),
+    "maxEE": LatchParameter(
+        display_name="maxEE",
+        description="After truncation, reads with higher expected errors than this will be discarded.",
+    ),
+    "truncQ": LatchParameter(
+        display_name="truncQ",
+        description="Truncate reads at the first instance of a quality score less than or equal to this",
+    ),
+    "trimLeft": LatchParameter(
+        display_name="trimLeft",
+        description="The number of nucleotides to remove from the start of each read.",
+    ),
+    "trimRight": LatchParameter(
+        display_name="trimRight",
+        description="The number of nucleotides to remove from the end of each read.",
+    ),
 }
 
 FLOW = [
@@ -34,6 +63,22 @@ FLOW = [
             " [DADA2 documentation](http://benjjneb.github.io/dada2/tutorial.html#assign-taxonomy)."
         ),
         Params("taxonomy_ref_fasta", "species_assignment_fasta"),
+    ),
+    Spoiler(
+        "filterAndTrim parameters",
+        Text(
+            "Parameters provided to the `filterAndTrim` function"
+            " in the DADA2 workflow"
+        ),
+        Params(
+            "minLen",
+            "maxN",
+            "minQ",
+            "maxEE",
+            "truncQ",
+            "trimLeft",
+            "trimRight",
+        ),
     ),
 ]
 
