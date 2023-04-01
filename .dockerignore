@@ -7,3 +7,4 @@ Dockerfile
 .git
 **/__pycache__
 .latch_report.tar.gz
+data/
