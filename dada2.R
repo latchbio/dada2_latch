@@ -47,7 +47,7 @@ seqtab <- makeSequenceTable(mergers)
 
 seqtab.nochim <- removeBimeraDenovo(seqtab, method="consensus", multithread=TRUE, verbose=TRUE)
 
-write.table(seqtab.nochim, paste0(output_dir, "/asv_table.tsv"))
+write.csv(seqtab.nochim, paste0(output_dir, "/asv_table.csv"), col.names = NA)
 
 ###### Assign taxonomy
 
@@ -57,4 +57,4 @@ taxa <- assignTaxonomy(seqtab.nochim, taxonomy_ref_fasta, multithread=TRUE)
 # taxa <- addSpecies(taxa, "/root/data/silva_species_assignment_v138.1.fa.gz")
 taxa <- addSpecies(taxa, species_assignment_fasta)
 
-write.table(taxa, paste0(output_dir, "/species_table.tsv"))
+write.csv(taxa, paste0(output_dir, "/species_table.csv"), col.names = NA)
