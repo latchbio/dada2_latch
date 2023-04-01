@@ -30,7 +30,7 @@ def run_dada2(
         shutil.move(sample.read2.local_path, str(read_dirpath))
 
     # Run dada2
-    dt_string = datetime.now().strftime("%d/%m/%Y_%H.%M.%S")
+    dt_string = datetime.now().strftime("%d.%m.%Y_%H.%M.%S")
     output_dir = f"dada2_{dt_string}"
     output_dirpath = Path(output_dir).resolve()
     output_dirpath.mkdir(parents=True, exist_ok=True)
@@ -46,7 +46,7 @@ def run_dada2(
 
     subprocess.run(_run_cmd)
 
-    return LatchDir(str(output_dirpath), f"latch:///dada2_results/{output_dirpath}")
+    return LatchDir(str(output_dirpath), f"latch:///dada2_results/{output_dir}")
 
 
 @workflow(wf_docs)
