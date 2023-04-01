@@ -75,7 +75,7 @@ write.csv(as.data.frame(seqtab.nochim),
 taxa <-
   assignTaxonomy(seqtab.nochim, taxonomy_ref_fasta, multithread = TRUE)
 
-if (length(species_assignment_fasta) != 0) {
+if (is.na(species_assignment_fasta) == FALSE) {
   taxa <- addSpecies(taxa, species_assignment_fasta)
 }
 
