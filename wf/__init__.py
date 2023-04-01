@@ -88,7 +88,46 @@ def dada2(
 
 LaunchPlan(
     dada2,
-    "Test Data",
+    "Fungus metagenome",
+    {
+        "samples": [
+            Sample(
+                read1=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5314314_trim_1.fastq.gz"
+                ),
+                read2=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5314314_trim_2.fastq.gz"
+                ),
+            ),
+            Sample(
+                read1=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5314336_trim_1.fastq.gz"
+                ),
+                read2=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5314336_trim_2.fastq.gz"
+                ),
+            ),
+            Sample(
+                read1=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5838532_trim_1.fastq.gz"
+                ),
+                read2=LatchFile(
+                    "s3://latch-public/test-data/4318/PRJNA377530_trimmed/SRR5838532_trim_2.fastq.gz"
+                ),
+            ),
+        ],
+        "taxonomy_ref_fasta": LatchFile(
+            "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
+        ),
+        "species_assignment_fasta": LatchFile(
+            "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
+        ),
+    },
+)
+
+LaunchPlan(
+    dada2,
+    "Human Gut Microbiome",
     {
         "samples": [
             Sample(
