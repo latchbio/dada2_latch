@@ -6,7 +6,7 @@ import shutil
 from latch import medium_task, workflow
 from latch.resources.launch_plan import LaunchPlan
 from latch.types import LatchDir, LatchFile
-from typing import List
+from typing import List, Optional
 
 from wf.docs import wf_docs
 from wf.types import Sample
@@ -16,7 +16,7 @@ from wf.types import Sample
 def run_dada2(
     samples: List[Sample],
     taxonomy_ref_fasta: LatchFile,
-    species_assignment_fasta: LatchFile,
+    species_assignment_fasta: Optional[LatchFile],
 ) -> LatchDir:
     """Task to run dada2"""
 
@@ -41,8 +41,10 @@ def run_dada2(
         str(read_dirpath),
         str(output_dirpath),
         taxonomy_ref_fasta.local_path,
-        species_assignment_fasta.local_path,
     ]
+
+    if species_assignment_fasta:
+        _run_cmd.append(species_assignment_fasta.local_path)
 
     subprocess.run(_run_cmd)
 
@@ -53,7 +55,7 @@ def run_dada2(
 def dada2(
     samples: List[Sample],
     taxonomy_ref_fasta: LatchFile,
-    species_assignment_fasta: LatchFile,
+    species_assignment_fasta: Optional[LatchFile],
 ) -> LatchDir:
     """A workflow for fast and accurate sample inference from amplicon data
 
@@ -117,9 +119,6 @@ LaunchPlan(
             ),
         ],
         "taxonomy_ref_fasta": LatchFile(
-            "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
-        ),
-        "species_assignment_fasta": LatchFile(
             "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
         ),
     },

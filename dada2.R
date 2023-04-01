@@ -29,10 +29,10 @@ out <- filterAndTrim(
   filtFs,
   fnRs,
   filtRs,
-  truncLen = c(240, 160),
   maxN = 0,
   maxEE = 2,
   truncQ = 2,
+  minLen = 50,
   rm.phix = TRUE,
   compress = TRUE,
   multithread = TRUE
@@ -75,6 +75,8 @@ write.csv(as.data.frame(seqtab.nochim),
 taxa <-
   assignTaxonomy(seqtab.nochim, taxonomy_ref_fasta, multithread = TRUE)
 
-taxa <- addSpecies(taxa, species_assignment_fasta)
+if (length(species_assignment_fasta) != 0) {
+  taxa <- addSpecies(taxa, species_assignment_fasta)
+}
 
 write.csv(taxa, paste0(output_dir, "/species_table.csv"), col.names = NA)
