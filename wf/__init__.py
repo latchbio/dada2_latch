@@ -23,7 +23,7 @@ def run_dada2(sample_name: str) -> List[LatchFile]:
 
     subprocess.run(_run_cmd)
 
-    return file_glob(f"{sample_name}*tsv", f"latch:///{results_path}")
+    return file_glob(f"{sample_name}*tsv", f"latch:///{results_path}/")
 
 
 @workflow(wf_docs)
