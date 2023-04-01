@@ -8,8 +8,8 @@ from latch.resources.launch_plan import LaunchPlan
 from latch.types import LatchDir, LatchFile
 from typing import List
 
-from .docs import wf_docs
-from .types import Sample
+from wf.docs import wf_docs
+from wf.types import Sample
 
 
 @medium_task
@@ -29,7 +29,7 @@ def run_dada2(
         shutil.move(sample.read1.local_path, str(read_dirpath))
         shutil.move(sample.read2.local_path, str(read_dirpath))
 
-    sample_name = sample_name
+    # Run dada2
     dt_string = datetime.now().strftime("%d/%m/%Y_%H.%M.%S")
     output_dir = f"dada2_{dt_string}"
     output_dirpath = Path(output_dir).resolve()
