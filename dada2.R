@@ -6,13 +6,13 @@ read_dir <- args[1]
 output_dir <- args[2]
 taxonomy_ref_fasta <- args[3]
 species_assignment_fasta <- args[4]
-minLen <- args[6]
-maxN <- args[7]
-minQ <- args[8]
-maxEE <- args[9]
-truncQ <- args[10]
-trimLeft <- args[11]
-trimRight <- args[12]
+minLen <- as.numeric(args[6])
+maxN <- as.numeric(args[7])
+minQ <- as.numeric(args[8])
+maxEE <- as.numeric(args[9])
+truncQ <- as.numeric(args[10])
+trimLeft <- as.numeric(args[11])
+trimRight <- as.numeric(args[12])
 
 # Forward and reverse fastq filenames have format: SAMPLENAME_R1_001.fastq and SAMPLENAME_R2_001.fastq
 fnFs <-
