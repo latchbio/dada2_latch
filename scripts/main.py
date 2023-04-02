@@ -42,6 +42,10 @@ dada2(
 #             read2=LatchFile("s3://latch-public/test-data/4318/F3D0_S188_L001_2.fastq"),
 #         ),
 #         Sample(
+#             read1=LatchFile("s3://latch-public/test-data/4318/F3D8_S196_L001_1.fastq"),
+#             read2=LatchFile("s3://latch-public/test-data/4318/F3D8_S196_L001_2.fastq"),
+#         ),
+#         Sample(
 #             read1=LatchFile(
 #                 "s3://latch-public/test-data/4318/F3D149_S215_L001_1.fastq"
 #             ),
