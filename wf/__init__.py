@@ -83,7 +83,7 @@ def dada2(
     DADA2
     ------
 
-    This is a workflow to run the DADA2[^1] software for amplicon data.
+    This is a workflow to run the DADA2[^1] (v1.26.0) software for amplicon data.
     It currently runs the following DADA2 functions under the hood:
 
     - `filterAndTrim` for filtering and trimming sequence files
