@@ -58,6 +58,12 @@ derepR1 <- derepFastq(filtRs, verbose = TRUE)
 errF <- learnErrors(derepF1, multithread = TRUE)
 errR <- learnErrors(derepR1, multithread = TRUE)
 
+errF_plot <- plotErrors(errF, nominalQ=TRUE)
+errR_plot <- plotErrors(errR, nominalQ=TRUE)
+
+ggplot2::ggsave(paste0(output_dir, "/error_rates_forward.pdf"), errF_plot)
+ggplot2::ggsave(paste0(output_dir, "/error_rates_reverse.pdf"), errR_plot)
+
 ##### Infer ASVs
 
 dadaFs <- dada(derepF1, err = errF, multithread = TRUE)
