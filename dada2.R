@@ -31,6 +31,8 @@ filtRs <-
 names(filtFs) <- sample.names
 names(filtRs) <- sample.names
 
+message("--- Filtering and Trimming Data ---")
+
 out <- filterAndTrim(
   fnFs,
   filtFs,
@@ -50,10 +52,14 @@ out <- filterAndTrim(
 
 ##### Dereplicate
 
+message("--- Dereplicating FASTQ data ---")
+
 derepF1 <- derepFastq(filtFs, verbose = TRUE)
 derepR1 <- derepFastq(filtRs, verbose = TRUE)
 
 ##### Learn Errors
+
+message("--- Learning Error Rates from the Dataset ---")
 
 errF <- learnErrors(derepF1, multithread = TRUE)
 errR <- learnErrors(derepR1, multithread = TRUE)
@@ -66,10 +72,14 @@ ggplot2::ggsave(paste0(output_dir, "/error_rates_reverse.pdf"), errR_plot)
 
 ##### Infer ASVs
 
+message("--- Inferring sample composition ---")
+
 dadaFs <- dada(derepF1, err = errF, multithread = TRUE)
 dadaRs <- dada(derepR1, err = errR, multithread = TRUE)
 
 ##### Merge Pairs and Remove Chimeras
+
+message("--- Merging read pairs and removing chimeras ---")
 
 mergers <-
   mergePairs(dadaFs, derepF1, dadaRs, derepR1, verbose = TRUE)
@@ -87,6 +97,8 @@ write.csv(as.data.frame(seqtab.nochim),
           col.names = NA)
 
 ###### Assign taxonomy
+
+message("--- Assigning taxonomy to ASVs ---")
 
 taxa <-
   assignTaxonomy(seqtab.nochim, taxonomy_ref_fasta, multithread = TRUE)
