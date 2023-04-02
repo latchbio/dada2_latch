@@ -6,14 +6,33 @@ from latch.types.metadata import (
     Section,
     Text,
     Spoiler,
+    LatchRule,
 )
 
 PARAMS = {
     "samples": LatchParameter(
         display_name="Samples",
     ),
-    "taxonomy_ref_fasta": LatchParameter(display_name="Taxonomy Reference FASTA"),
-    "species_assignment_fasta": LatchParameter(display_name="Species Assignment FASTA"),
+    "taxonomy_ref_fasta": LatchParameter(
+        display_name="Taxonomy Reference FASTA",
+        detail="(.fa, .fasta, .fa.gz, .fasta.gz)",
+        rules=[
+            LatchRule(
+                regex="(.fa|.fasta|.fa.gz|.fasta.gz)$",
+                message="Must be a valid FASTA file",
+            )
+        ],
+    ),
+    "species_assignment_fasta": LatchParameter(
+        display_name="Species Assignment FASTA",
+        detail="(.fa, .fasta, .fa.gz, .fasta.gz)",
+        rules=[
+            LatchRule(
+                regex="(.fa|.fasta|.fa.gz|.fasta.gz)$",
+                message="Must be a valid FASTA file",
+            )
+        ],
+    ),
     "minLen": LatchParameter(
         display_name="minLen",
         description="Remove reads with length less than this value",
@@ -94,6 +113,6 @@ wf_docs = LatchMetadata(
     repository=f"https://github.com/jvfe/{WORKFLOW_NAME}_latch",
     license="MIT",
     parameters=PARAMS,
-    tags=["NGS", "16S", "Amplicon", "ASV"],
+    tags=["16S", "Amplicon", "ASV"],
     flow=FLOW,
 )
