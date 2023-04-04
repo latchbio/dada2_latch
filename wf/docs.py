@@ -87,10 +87,14 @@ FLOW = [
             " as input to the `addSpecies` function. See further explanation on the"
             " [DADA2 documentation](http://benjjneb.github.io/dada2/tutorial.html#assign-taxonomy)."
         ),
+        Text(
+            "We already provide [SILVA v138.1](https://doi.org/10.5281/zenodo.4587954),"
+            " [RDP 11.5](https://zenodo.org/record/4310151) and [UNITE 9.0](https://unite.ut.ee/repository.php)."
+        ),
         Fork(
             "tax_ref_fork",
             "Choose a reference database",
-            taxonomy_reference=ForkBranch("Databases", Params("taxonomy_reference")),
+            taxonomy_reference=ForkBranch("Database", Params("taxonomy_reference")),
             taxonomy_ref_fasta=ForkBranch(
                 "FASTA Reference", Params("taxonomy_ref_fasta")
             ),
@@ -98,7 +102,7 @@ FLOW = [
         Fork(
             "species_assign_fork",
             "Choose a species assignment database",
-            species_assignment=ForkBranch("Databases", Params("species_assignment")),
+            species_assignment=ForkBranch("Database", Params("species_assignment")),
             species_assignment_fasta=ForkBranch(
                 "FASTA Reference", Params("species_assignment_fasta")
             ),
