@@ -72,8 +72,7 @@ FLOW = [
         "Samples",
         Text(
             "Samples provided have to include"
-            " two files corresponding to the reads (paired-end),"
-            " which follow the pattern '*1.fastq' and '*2.fastq'."
+            " two files corresponding to the reads (paired-end)."
         ),
         Params("samples"),
     ),
