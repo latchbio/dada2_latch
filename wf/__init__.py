@@ -2,20 +2,29 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 import shutil
-
+from urllib.parse import urlparse
 from latch import medium_task, workflow
 from latch.resources.launch_plan import LaunchPlan
 from latch.types import LatchDir, LatchFile
 from typing import List, Optional
 
 from wf.docs import wf_docs
-from wf.types import Sample
+from wf.types import Sample, TaxonomyReference, SpeciesAssignmentReference
+
+
+def aws_cp(src: str, dst: str, show_progress: bool = False):
+    cmd = ["aws", "s3", "cp", src, dst]
+    if not show_progress:
+        cmd.append("--no-progress")
+    subprocess.run(cmd, check=True)
 
 
 @medium_task
 def run_dada2(
     samples: List[Sample],
-    taxonomy_ref_fasta: LatchFile,
+    taxonomy_reference: TaxonomyReference,
+    species_assignment: Optional[SpeciesAssignmentReference],
+    taxonomy_ref_fasta: Optional[LatchFile],
     species_assignment_fasta: Optional[LatchFile],
     minLen: int,
     maxN: int,
@@ -26,6 +35,24 @@ def run_dada2(
     trimRight: int,
 ) -> LatchDir:
     """Task to run dada2"""
+
+    if taxonomy_ref_fasta:
+        taxonomy_loc = taxonomy_ref_fasta.local_path
+    else:
+        remote_path = taxonomy_reference.value
+        local_path = Path.cwd() / Path(urlparse(remote_path).path).name
+        taxonomy_loc = str(local_path.resolve())
+        aws_cp(remote_path, taxonomy_loc)
+
+    if species_assignment:
+        remote_path = species_assignment.value
+        local_path = Path.cwd() / Path(urlparse(remote_path).path).name
+        species_assign_loc = str(local_path.resolve())
+        aws_cp(remote_path, species_assign_loc)
+    elif species_assignment_fasta:
+        species_assign_loc = species_assignment_fasta.local_path
+    else:
+        species_assign_loc = None
 
     # Move all reads into respective directory
     read_dirpath1 = Path("dada2_forwardreads").resolve()
@@ -49,7 +76,7 @@ def run_dada2(
         str(read_dirpath1),
         str(read_dirpath2),
         str(output_dirpath),
-        taxonomy_ref_fasta.local_path,
+        taxonomy_loc,
         str(minLen),
         str(maxN),
         str(minQ),
@@ -59,8 +86,8 @@ def run_dada2(
         str(trimRight),
     ]
 
-    if species_assignment_fasta:
-        _run_cmd.append(species_assignment_fasta.local_path)
+    if species_assign_loc:
+        _run_cmd.append(species_assign_loc)
 
     subprocess.run(_run_cmd)
 
@@ -70,7 +97,11 @@ def run_dada2(
 @workflow(wf_docs)
 def dada2(
     samples: List[Sample],
-    taxonomy_ref_fasta: LatchFile,
+    tax_ref_fork: str,
+    taxonomy_reference: TaxonomyReference,
+    species_assign_fork: str = "none",
+    species_assignment: Optional[SpeciesAssignmentReference] = None,
+    taxonomy_ref_fasta: Optional[LatchFile] = None,
     species_assignment_fasta: Optional[LatchFile] = None,
     minLen: int = 50,
     maxN: int = 0,
@@ -106,6 +137,8 @@ def dada2(
     """
     return run_dada2(
         samples=samples,
+        taxonomy_reference=taxonomy_reference,
+        species_assignment=species_assignment,
         taxonomy_ref_fasta=taxonomy_ref_fasta,
         species_assignment_fasta=species_assignment_fasta,
         minLen=minLen,

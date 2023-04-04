@@ -1,4 +1,6 @@
 from latch.types.metadata import (
+    Fork,
+    ForkBranch,
     LatchAuthor,
     LatchMetadata,
     LatchParameter,
@@ -13,6 +15,10 @@ PARAMS = {
     "samples": LatchParameter(
         display_name="Samples",
     ),
+    "tax_ref_fork": LatchParameter(),
+    "species_assign_fork": LatchParameter(),
+    "taxonomy_reference": LatchParameter(display_name="Taxonomy Reference Database"),
+    "species_assignment": LatchParameter(display_name="Species Assignment Database"),
     "taxonomy_ref_fasta": LatchParameter(
         display_name="Taxonomy Reference FASTA",
         detail="(.fa, .fasta, .fa.gz, .fasta.gz)",
@@ -76,12 +82,27 @@ FLOW = [
     Section(
         "Reference Files",
         Text(
-            "The taxonomy reference FASTA should be a training set of reference sequences with known taxonomy"
-            " which will be used by the `assignTaxonomy` function. The Species Assignment FASTA will be used"
+            "The taxonomy reference should be a training set of reference sequences with known taxonomy"
+            " which will be used by the `assignTaxonomy` function. The species assignment reference will be used"
             " as input to the `addSpecies` function. See further explanation on the"
             " [DADA2 documentation](http://benjjneb.github.io/dada2/tutorial.html#assign-taxonomy)."
         ),
-        Params("taxonomy_ref_fasta", "species_assignment_fasta"),
+        Fork(
+            "tax_ref_fork",
+            "Choose a reference database",
+            taxonomy_reference=ForkBranch("Databases", Params("taxonomy_reference")),
+            taxonomy_ref_fasta=ForkBranch(
+                "FASTA Reference", Params("taxonomy_ref_fasta")
+            ),
+        ),
+        Fork(
+            "species_assign_fork",
+            "Choose a species assignment database",
+            species_assignment=ForkBranch("Databases", Params("species_assignment")),
+            species_assignment_fasta=ForkBranch(
+                "FASTA Reference", Params("species_assignment_fasta")
+            ),
+        ),
     ),
     Spoiler(
         "filterAndTrim parameters",
