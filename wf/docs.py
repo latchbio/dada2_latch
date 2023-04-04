@@ -12,9 +12,7 @@ from latch.types.metadata import (
 )
 
 PARAMS = {
-    "samples": LatchParameter(
-        display_name="Samples",
-    ),
+    "samples": LatchParameter(display_name="Samples", samplesheet=True),
     "tax_ref_fork": LatchParameter(),
     "species_assign_fork": LatchParameter(),
     "taxonomy_reference": LatchParameter(display_name="Taxonomy Reference Database"),
