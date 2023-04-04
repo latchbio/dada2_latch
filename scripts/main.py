@@ -1,9 +1,9 @@
-from wf import dada2
+from wf import run_dada2
 from wf.types import Sample, TaxonomyReference, SpeciesAssignmentReference
 from latch.types import LatchFile
 
 
-dada2(
+run_dada2(
     samples=[
         Sample(
             read1=LatchFile("s3://latch-public/test-data/4318/F3D0_S188_L001_1.fastq"),
@@ -24,9 +24,18 @@ dada2(
     ],
     taxonomy_reference=TaxonomyReference.SILVA_138_1,
     species_assignment=SpeciesAssignmentReference.SILVA_138_1,
+    taxonomy_ref_fasta=None,
+    species_assignment_fasta=None,
+    minLen=50,
+    maxN=0,
+    minQ=0,
+    maxEE=2,
+    truncQ=2,
+    trimLeft=0,
+    trimRight=0,
 )
 
-dada2(
+run_dada2(
     samples=[
         Sample(
             read1=LatchFile(
@@ -56,4 +65,14 @@ dada2(
     taxonomy_ref_fasta=LatchFile(
         "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
     ),
+    taxonomy_reference=TaxonomyReference.SILVA_138_1,
+    species_assignment_fasta=None,
+    species_assignment=None,
+    minLen=50,
+    maxN=0,
+    minQ=0,
+    maxEE=2,
+    truncQ=2,
+    trimLeft=0,
+    trimRight=0,
 )
