@@ -2,23 +2,23 @@ library(dada2)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-read_dir <- args[1]
-output_dir <- args[2]
-taxonomy_ref_fasta <- args[3]
-minLen <- as.numeric(args[4])
-maxN <- as.numeric(args[5])
-minQ <- as.numeric(args[6])
-maxEE <- as.numeric(args[7])
-truncQ <- as.numeric(args[8])
-trimLeft <- as.numeric(args[9])
-trimRight <- as.numeric(args[10])
-species_assignment_fasta <- args[11]
+read_dir1 <- args[1]
+read_dir2 <- args[2]
+output_dir <- args[3]
+taxonomy_ref_fasta <- args[4]
+minLen <- as.numeric(args[5])
+maxN <- as.numeric(args[6])
+minQ <- as.numeric(args[7])
+maxEE <- as.numeric(args[8])
+truncQ <- as.numeric(args[9])
+trimLeft <- as.numeric(args[10])
+trimRight <- as.numeric(args[11])
+species_assignment_fasta <- args[12]
 
-# Forward and reverse fastq filenames have format: SAMPLENAME_R1_001.fastq and SAMPLENAME_R2_001.fastq
 fnFs <-
-  sort(list.files(read_dir, pattern = "1.fastq", full.names = TRUE))
+  sort(list.files(read_dir1, pattern = "fastq", full.names = TRUE))
 fnRs <-
-  sort(list.files(read_dir, pattern = "2.fastq", full.names = TRUE))
+  sort(list.files(read_dir2, pattern = "fastq", full.names = TRUE))
 # Extract sample names, assuming filenames have format: SAMPLENAME_XXX.fastq
 sample.names <- sapply(strsplit(basename(fnFs), "_"), `[`, 1)
 

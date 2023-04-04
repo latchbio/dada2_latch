@@ -27,14 +27,15 @@ def run_dada2(
 ) -> LatchDir:
     """Task to run dada2"""
 
-    # Move all reads into same directory
-    read_dir = "dada2_reads"
-    read_dirpath = Path(read_dir).resolve()
-    read_dirpath.mkdir(parents=True, exist_ok=True)
+    # Move all reads into respective directory
+    read_dirpath1 = Path("dada2_forwardreads").resolve()
+    read_dirpath2 = Path("dada2_reversereads").resolve()
+    read_dirpath1.mkdir(parents=True, exist_ok=True)
+    read_dirpath2.mkdir(parents=True, exist_ok=True)
 
     for sample in samples:
-        shutil.move(sample.read1.local_path, str(read_dirpath))
-        shutil.move(sample.read2.local_path, str(read_dirpath))
+        shutil.move(sample.read1.local_path, str(read_dirpath1))
+        shutil.move(sample.read2.local_path, str(read_dirpath2))
 
     # Run dada2
     dt_string = datetime.now().strftime("%d.%m.%Y_%H.%M.%S")
@@ -45,7 +46,8 @@ def run_dada2(
     _run_cmd = [
         "Rscript",
         "/root/dada2.R",
-        str(read_dirpath),
+        str(read_dirpath1),
+        str(read_dirpath2),
         str(output_dirpath),
         taxonomy_ref_fasta.local_path,
         str(minLen),
