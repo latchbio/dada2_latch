@@ -9,7 +9,13 @@ from latch.types import LatchDir, LatchFile
 from typing import List, Optional
 
 from wf.docs import wf_docs
-from wf.types import Sample, TaxonomyReference, SpeciesAssignmentReference
+from wf.types import (
+    Sample,
+    TaxonomyReference,
+    SpeciesAssignmentReference,
+    TAXONOMY_REF_DICT,
+    SPECIES_ASSIGN_DICT,
+)
 
 
 def aws_cp(src: str, dst: str, show_progress: bool = False):
@@ -39,13 +45,13 @@ def run_dada2(
     if taxonomy_ref_fasta:
         taxonomy_loc = taxonomy_ref_fasta.local_path
     else:
-        remote_path = taxonomy_reference.value
+        remote_path = TAXONOMY_REF_DICT[taxonomy_reference.value]
         local_path = Path.cwd() / Path(urlparse(remote_path).path).name
         taxonomy_loc = str(local_path.resolve())
         aws_cp(remote_path, taxonomy_loc)
 
     if species_assignment:
-        remote_path = species_assignment.value
+        remote_path = SPECIES_ASSIGN_DICT[species_assignment.value]
         local_path = Path.cwd() / Path(urlparse(remote_path).path).name
         species_assign_loc = str(local_path.resolve())
         aws_cp(remote_path, species_assign_loc)
