@@ -112,6 +112,6 @@ write.csv(taxa, paste0(output_dir, "/species_table.csv"), col.names = NA)
 
 
 ps <- phyloseq(otu_table(seqtab.nochim, taxa_are_rows=FALSE),
-               tax_table(as.matrix(taxa))
+               tax_table(as.matrix(taxa)))
 
 save(ps, file = paste0(output_dir, "/phyloseq_object.RData"))
