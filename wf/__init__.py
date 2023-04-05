@@ -221,7 +221,7 @@ LaunchPlan(
                 ),
             ),
         ],
-        "taxonomy_reference": TaxonomyReference.SILVA_138_1,
-        "species_assignment": SpeciesAssignmentReference.SILVA_138_1,
+        "taxonomy_reference": TaxonomyReference.SILVA,
+        "species_assignment": SpeciesAssignmentReference.SILVA,
     },
 )

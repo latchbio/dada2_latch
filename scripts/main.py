@@ -22,8 +22,8 @@ run_dada2(
             ),
         ),
     ],
-    taxonomy_reference=TaxonomyReference.SILVA_138_1,
-    species_assignment=SpeciesAssignmentReference.SILVA_138_1,
+    taxonomy_reference=TaxonomyReference.SILVA,
+    species_assignment=SpeciesAssignmentReference.SILVA,
     taxonomy_ref_fasta=None,
     species_assignment_fasta=None,
     minLen=50,
@@ -65,7 +65,7 @@ run_dada2(
     taxonomy_ref_fasta=LatchFile(
         "s3://latch-public/test-data/4318/sh_general_release_dynamic_29.11.2022.fasta"
     ),
-    taxonomy_reference=TaxonomyReference.SILVA_138_1,
+    taxonomy_reference=TaxonomyReference.SILVA,
     species_assignment_fasta=None,
     species_assignment=None,
     minLen=50,
