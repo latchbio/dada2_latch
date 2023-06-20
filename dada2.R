@@ -20,8 +20,8 @@ fnFs <-
   sort(list.files(read_dir1, full.names = TRUE))
 fnRs <-
   sort(list.files(read_dir2, full.names = TRUE))
-# Extract sample names, assuming filenames have format: SAMPLENAME_XXX.fastq
-sample.names <- sapply(strsplit(basename(fnFs), "_"), `[`, 1)
+
+sample.names <- tools::file_path_sans_ext(fnFs)
 
 ##### Filter and Trim
 
