@@ -21,7 +21,7 @@ fnFs <-
 fnRs <-
   sort(list.files(read_dir2, full.names = TRUE))
 
-sample.names <- tools::file_path_sans_ext(fnFs)
+sample.names <- tools::file_path_sans_ext(basename(fnFs))
 
 ##### Filter and Trim
 
