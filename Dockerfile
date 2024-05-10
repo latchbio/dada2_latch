@@ -1,6 +1,8 @@
 # latch base image + dependencies for latch SDK --- removing these will break the workflow
 from 812206152185.dkr.ecr.us-west-2.amazonaws.com/latch-base:9c8f-main
-run pip install latch==2.14.2
+# run pip install latch==2.14.2
+run pip install latch
+run pip install ete3
 run mkdir /opt/latch
 
 # install R requirements
@@ -11,6 +13,17 @@ run apt-get update --yes && \
 copy environment.R /opt/latch/environment.R
 run Rscript /opt/latch/environment.R
 
+# run apt-get install -y libmagick++-dev libgdal-dev
+# run apt-get install -y libmagick++-dev
+
+#RUN apt-get update -y && \
+#    apt-get install -y \
+#        libmagick++-dev \
+#        libgdal-dev
+
+run pip install latch --upgrade
+
+run pip install pandas
 # copy all code from package (use .dockerignore to skip files)
 copy . /root/
 
